@@ -21,6 +21,14 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            maven-
+
       - name: Install Dependencies, Run Tests, and Generate Coverage
         run: mvn clean verify jacoco:report
 
