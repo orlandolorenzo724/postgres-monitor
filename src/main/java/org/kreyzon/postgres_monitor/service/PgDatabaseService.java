@@ -16,7 +16,7 @@ public class PgDatabaseService {
     private final PgDatabaseRepository pgDatabaseRepository;
 
     /**
-     * Get database sizes
+     * Get the size of all databases
      *
      * @return list of database sizes
      */
