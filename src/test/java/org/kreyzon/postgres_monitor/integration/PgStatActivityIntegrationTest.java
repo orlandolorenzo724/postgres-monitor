@@ -3,9 +3,7 @@ package org.kreyzon.postgres_monitor.integration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PgStatActivityIntegrationTest {
 
     private static final String DATABASE_NAME = "test_db";
@@ -46,10 +45,52 @@ public class PgStatActivityIntegrationTest {
     }
 
     @Test
+    @Order(1)
+    void shouldReturnAllActiveConnections() throws Exception {
+        log.info("Requesting all active connections");
+        String response = mockMvc.perform(get("/pg_stat_activity/active_connections")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+        Assertions.assertTrue(response.contains("datid"));
+    }
+
+    @Test
+    @Order(2)
     void shouldReturnActiveConnectionsForDatabase() throws Exception {
         log.info("Requesting active connections for database: {}", DATABASE_NAME);
-        String response = mockMvc.perform(get("/pg_stat_activity")
-                        .param("databaseName", DATABASE_NAME)
+        String response = mockMvc.perform(get("/pg_stat_activity/active_connections/{databaseName}", DATABASE_NAME)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+        Assertions.assertTrue(response.contains(DATABASE_NAME));
+    }
+
+    @Test
+    @Order(3)
+    void shouldReturnAllActiveQueries() throws Exception {
+        log.info("Requesting all active queries");
+        String response = mockMvc.perform(get("/pg_stat_activity/active_queries")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+        Assertions.assertTrue(response.contains("datid"));
+    }
+
+    @Test
+    @Order(4)
+    void shouldReturnActiveQueriesForDatabase() throws Exception {
+        log.info("Requesting active queries for database: {}", DATABASE_NAME);
+        String response = mockMvc.perform(get("/pg_stat_activity/active_queries/{databaseName}", DATABASE_NAME)
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
                         .andReturn()

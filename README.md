@@ -87,17 +87,8 @@ spring:
    ```
 
 4. Access endpoints:
-    - Active connections: `GET /pg_stat_activity?databaseName=<name>`
+    - Active connections: `GET /pg_stat_activity/active_connections?databaseName=<name>`
     - Database sizes: `GET /pg_database/sizes`
-
----
-
-### Future Enhancements
-
-- Add `/pg_locks/active` to monitor active locks and blocking queries.
-- Implement detailed query analysis for expensive queries.
-- Extend database monitoring to include performance metrics like cache hit ratio.
-
 ---
 
 ### License

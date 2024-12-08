@@ -8,7 +8,7 @@ import org.kreyzon.postgres_monitor.model.PgStatActivity;
 @UtilityClass
 public class DTOConverter {
 
-    public PgStatActivityDto getDtoFromEntity(PgStatActivity entity) {
+    public PgStatActivityDto getDto(PgStatActivity entity) {
         return PgStatActivityDto
                 .builder()
                 .id(entity.getId())
@@ -30,7 +30,7 @@ public class DTOConverter {
                 .build();
     }
 
-    public DatabaseSizeDto getDtoFromEntity(Object[] row) {
+    public DatabaseSizeDto getDto(Object[] row) {
         return DatabaseSizeDto
                 .builder()
                 .databaseName((String) row[0])
