@@ -14,5 +14,5 @@ import lombok.Setter;
 public class PgDatabase {
     @Id
     @Column(name = "datname")
-    private String datname;
+    private String name;
 }

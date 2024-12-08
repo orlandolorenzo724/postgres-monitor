@@ -18,6 +18,11 @@ public class PgDatabaseController {
 
     private final PgDatabaseService pgDatabaseService;
 
+    @GetMapping
+    public ResponseEntity<List<String>> getAllDatabases() {
+        return ResponseEntity.ok(pgDatabaseService.getAllDatabases());
+    }
+
     @GetMapping("/size")
     public ResponseEntity<List<DatabaseSizeDto>> getAllDatabaseSizes() {
         return ResponseEntity.ok(pgDatabaseService.getAllDatabaseSizes());

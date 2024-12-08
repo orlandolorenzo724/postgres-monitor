@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kreyzon.postgres_monitor.dto.DatabaseSizeDto;
 import org.kreyzon.postgres_monitor.dto.converter.DTOConverter;
+import org.kreyzon.postgres_monitor.model.PgDatabase;
 import org.kreyzon.postgres_monitor.repository.PgDatabaseRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,19 @@ import java.util.stream.Collectors;
 public class PgDatabaseService {
 
     private final PgDatabaseRepository pgDatabaseRepository;
+
+    /**
+     * Get all databases
+     *
+     * @return list of databases
+     */
+    public List<String> getAllDatabases() {
+        log.info("Getting all databases");
+        return pgDatabaseRepository.findAll()
+                .stream()
+                .map(PgDatabase::getName)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Get the size of all databases

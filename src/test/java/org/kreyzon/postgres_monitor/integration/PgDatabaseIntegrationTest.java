@@ -45,9 +45,9 @@ public class PgDatabaseIntegrationTest {
 
     @Test
     @Order(1)
-    void shouldReturnDatabaseSizes() throws Exception {
-        log.info("Requesting database sizes");
-        String response = mockMvc.perform(get("/pg_database/size")
+    void shouldReturnAllDatabaseNames() throws Exception {
+        log.info("Requesting all database names");
+        String response = mockMvc.perform(get("/pg_database")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -57,12 +57,28 @@ public class PgDatabaseIntegrationTest {
 
         log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
 
-        Assertions.assertTrue(response.contains("databaseName"));
-        Assertions.assertTrue(response.contains("size"));
+        Assertions.assertTrue(response.contains(DATABASE_NAME));
     }
 
     @Test
     @Order(2)
+    void shouldReturnDatabases() throws Exception {
+        log.info("Requesting all databases");
+        String response = mockMvc.perform(get("/pg_database")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+
+        Assertions.assertTrue(response.contains(DATABASE_NAME));
+    }
+
+    @Test
+    @Order(3)
     void shouldReturnDatabaseSize() throws Exception {
         log.info("Requesting database size for database: {}", DATABASE_NAME);
         String response = mockMvc.perform(get("/pg_database/size/{databaseName}", DATABASE_NAME)
