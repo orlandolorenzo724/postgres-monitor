@@ -24,4 +24,13 @@ public class PgStatDatabase {
 
     @Column(name = "datname")
     private String name;
+
+    @Column(name = "numbackends")
+    private Integer activeConnections;
+
+    @Column(name = "xact_commit")
+    private Long transactionsCommitted;
+
+    @Column(name = "xact_rollback")
+    private Long transactionsRollback;
 }

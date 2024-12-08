@@ -18,4 +18,9 @@ public class PgStatDatabaseController {
     public ResponseEntity<Double> getCacheHitRatio() {
         return ResponseEntity.ok(service.getCacheHitRatio());
     }
+
+    @GetMapping("/database_stats")
+    public ResponseEntity<?> getDatabaseStats() {
+        return ResponseEntity.ok(service.getDatabaseStats());
+    }
 }

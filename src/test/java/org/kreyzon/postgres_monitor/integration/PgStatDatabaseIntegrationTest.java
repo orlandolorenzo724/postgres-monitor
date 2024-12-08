@@ -57,4 +57,19 @@ public class PgStatDatabaseIntegrationTest {
         log.info("Response: {}{}", gson.toJson(gson.fromJson(response, Object.class)), "%");
         Assertions.assertTrue(Double.parseDouble(response) >= 0);
     }
+
+    @Test
+    @Order(2)
+    void shouldReturnDatabaseStats() throws Exception {
+        log.info("Requesting database stats");
+        String response = mockMvc.perform(get("/pg_stat_database/database_stats")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+        Assertions.assertTrue(response.contains(DATABASE_NAME));
+    }
 }
