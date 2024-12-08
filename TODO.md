@@ -8,7 +8,7 @@
 - [x] **Monitor Database Sizes**
   - Retrieves the sizes of all databases in the PostgreSQL instance.
 
-- [ ] **Monitor Active Queries**
+- [X] **Monitor Active Queries**
   - Planned: Implement functionality to track currently running queries with execution details.
 
 - [ ] **Monitor Active Locks**
@@ -18,7 +18,7 @@
   - Planned: Use `pg_stat_statements` to identify the most time-consuming queries.
 
 - [ ] **Database Health Metrics**
-  - Planned: Monitor overall database health, including cache hit ratio and index usage.
+  - Planned: Monitor overall database health, including cache hit ratio.
 
 - [ ] **Monitor Table Statistics**
   - Planned: Display table-level statistics like row count, size, and vacuum status.

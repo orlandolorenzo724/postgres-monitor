@@ -1,6 +1,6 @@
 # Server configuration
 server:
-  port: ${PORT}
+  port: 12893
   servlet:
     context-path: /krz/postgres-monitor
 
