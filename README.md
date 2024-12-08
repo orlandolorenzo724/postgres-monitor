@@ -5,25 +5,6 @@
 
 ---
 
-### Features
-
-1. **Monitor Active Connections**
-    - Endpoint: `/pg_stat_activity`
-    - Description: Returns a list of active connections for a given database.
-    - Example Use Case: Diagnose which queries are currently consuming resources in your database.
-
-2. **Monitor Database Sizes**
-    - Endpoint: `/pg_database/sizes`
-    - Description: Fetches the sizes of all databases in the PostgreSQL instance.
-    - Example Use Case: Monitor storage utilization across multiple databases.
-
-3. **Monitor Active Locks** *(Planned Feature)*
-    - Endpoint: `/pg_locks/active`
-    - Description: Displays active locks and blocking/blocked queries.
-    - Example Use Case: Identify query bottlenecks due to locking.
-
----
-
 ### Technologies Used
 
 1. **Spring Boot** (v3.2.5)
