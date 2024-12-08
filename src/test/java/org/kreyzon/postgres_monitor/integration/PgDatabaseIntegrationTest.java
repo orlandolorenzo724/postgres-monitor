@@ -3,9 +3,7 @@ package org.kreyzon.postgres_monitor.integration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PgDatabaseIntegrationTest {
     private static final String DATABASE_NAME = "test_db";
 
@@ -45,9 +44,28 @@ public class PgDatabaseIntegrationTest {
     }
 
     @Test
+    @Order(1)
     void shouldReturnDatabaseSizes() throws Exception {
         log.info("Requesting database sizes");
-        String response = mockMvc.perform(get("/pg_database/sizes")
+        String response = mockMvc.perform(get("/pg_database/size")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        log.info("Response: {}", gson.toJson(gson.fromJson(response, Object.class)));
+
+        Assertions.assertTrue(response.contains("databaseName"));
+        Assertions.assertTrue(response.contains("size"));
+    }
+
+    @Test
+    @Order(2)
+    void shouldReturnDatabaseSize() throws Exception {
+        log.info("Requesting database size for database: {}", DATABASE_NAME);
+        String response = mockMvc.perform(get("/pg_database/size/{databaseName}", DATABASE_NAME)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

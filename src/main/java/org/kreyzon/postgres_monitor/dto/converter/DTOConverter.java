@@ -1,14 +1,17 @@
 package org.kreyzon.postgres_monitor.dto.converter;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.kreyzon.postgres_monitor.dto.DatabaseSizeDto;
 import org.kreyzon.postgres_monitor.dto.PgStatActivityDto;
 import org.kreyzon.postgres_monitor.model.PgStatActivity;
 
 @UtilityClass
+@Slf4j
 public class DTOConverter {
 
     public PgStatActivityDto getDto(PgStatActivity entity) {
+        log.info("Converting entity to DTO: {}", entity);
         return PgStatActivityDto
                 .builder()
                 .id(entity.getId())
@@ -31,10 +34,11 @@ public class DTOConverter {
     }
 
     public DatabaseSizeDto getDto(Object[] row) {
+        log.info("Converting row to DTO: {}", row);
         return DatabaseSizeDto
                 .builder()
-                .databaseName((String) row[0])
-                .size((String) row[1])
+                .databaseName(row[0].toString())
+                .size(row[1].toString())
                 .build();
     }
 }

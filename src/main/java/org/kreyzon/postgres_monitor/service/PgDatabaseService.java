@@ -22,13 +22,24 @@ public class PgDatabaseService {
      *
      * @return list of database sizes
      */
-    public List<DatabaseSizeDto> getDatabaseSizes() {
+    public List<DatabaseSizeDto> getAllDatabaseSizes() {
         log.info("Getting database sizes");
         return pgDatabaseRepository
-                .findDatabaseSizes()
+                .getAllDatabaseSizes()
                 .stream()
                 .map(DTOConverter::getDto)
                 .collect(Collectors.toList());
     }
-}
 
+    /**
+     * Get the size of a specific database
+     *
+     * @param databaseName name of the database
+     * @return database size
+     */
+    public DatabaseSizeDto getDatabaseSize(String databaseName) {
+        log.info("Getting database size for database: {}", databaseName);
+        Object[] row = pgDatabaseRepository.getDatabaseSize(databaseName);
+        return DTOConverter.getDto((Object[]) row[0]);
+    }
+}
